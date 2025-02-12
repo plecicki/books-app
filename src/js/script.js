@@ -11,6 +11,7 @@
         },
         book: {
             image: '.book__image',
+            rating: '.book__rating__fill',
         }
     }
 
@@ -25,6 +26,7 @@
 
             thisBook.renderInMenu();
             thisBook.getElements();
+            thisBook.setRatingColor();
         }
 
         getElements() {
@@ -32,6 +34,8 @@
 
             thisBook.dom = {};
             thisBook.dom.image = thisBook.element.querySelector(select.book.image);
+            thisBook.dom.rating = thisBook.element.querySelector(select.book.rating);
+            console.log('thisBook.dom.rating', thisBook.dom.rating)
         }
 
         renderInMenu() {
@@ -41,6 +45,30 @@
             thisBook.element = utils.createDOMFromHTML(generatedHTML);
             const booksContainer = document.querySelector(select.containerOf.books);
             booksContainer.appendChild(thisBook.element);
+        }
+
+        setRatingColor() {
+            const thisBook = this;
+            const rating = thisBook.data.rating;
+            const width = thisBook.data.rating * 10;
+
+            if (rating < 6) {
+                thisBook.dom.rating.setAttribute('style',
+                    'background: linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%);' +
+                    'width: ' + width + '%;');
+            } else if (rating <= 8) {
+                thisBook.dom.rating.setAttribute('style',
+                    'background: linear-gradient(to bottom, #b4df5b 0%,#b4df5b 100%);' +
+                    'width: ' + width + '%;');
+            } else if (rating <= 9) {
+                thisBook.dom.rating.setAttribute('style',
+                    'background: linear-gradient(to bottom, #299a0b 0%, #299a0b 100%);' +
+                    'width: ' + width + '%;');
+            } else {
+                thisBook.dom.rating.setAttribute('style',
+                    'background: linear-gradient(to bottom, #ff0084 0%,#ff0084 100%);' +
+                    'width: ' + width + '%;');
+            }
         }
 
         hideIfFiltered(filters) {
