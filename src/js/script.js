@@ -50,6 +50,8 @@
             thisBook.dom.image.addEventListener('dblclick', function(event){
                 event.preventDefault();
                 thisBook.dom.image.classList.add('favorite');
+                app.favoriteBooks.push(thisBook.data.id);
+                console.log(app.favoriteBooks);
             })
         }
     }
