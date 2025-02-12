@@ -24,7 +24,6 @@
 
             thisBook.renderInMenu();
             thisBook.getElements();
-            thisBook.initFavoriteAction();
         }
 
         getElements() {
@@ -43,26 +42,6 @@
             console.log('booksContainer', booksContainer);
             booksContainer.appendChild(thisBook.element);
         }
-
-        initFavoriteAction() {
-            const thisBook = this;
-
-            thisBook.dom.image.addEventListener('click', function(event){
-                event.preventDefault();
-            })
-            thisBook.dom.image.addEventListener('dblclick', function(event){
-                event.preventDefault();
-                if (!app.favoriteBooks.includes(thisBook.data.id)) {
-                    thisBook.dom.image.classList.add('favorite');
-                    app.favoriteBooks.push(thisBook.data.id);
-                } else {
-                    thisBook.dom.image.classList.remove('favorite');
-                    app.favoriteBooks.splice(
-                        app.favoriteBooks.indexOf(thisBook.data.id),1);
-                }
-                console.log(app.favoriteBooks);
-            })
-        }
     }
 
     const app = {
@@ -77,6 +56,27 @@
             const thisApp = this;
             thisApp.data = dataSource;
         },
+        initFavoriteAction: function() {
+            const thisApp = this;
+
+            const booksContainer = document.querySelector(select.containerOf.books);
+            booksContainer.addEventListener('dblclick', function(event) {
+                event.preventDefault();
+                const clickedGrandpa = event.target.parentElement.parentElement;
+                if(clickedGrandpa.classList.contains('book__image')) {
+                    const bookId = clickedGrandpa.getAttribute('data-id');
+
+                    if (!app.favoriteBooks.includes(bookId)) {
+                        clickedGrandpa.classList.add('favorite');
+                        app.favoriteBooks.push(bookId);
+                    } else {
+                        clickedGrandpa.classList.remove('favorite');
+                        app.favoriteBooks.splice(
+                            app.favoriteBooks.indexOf(bookId),1);
+                    }
+                }
+            });
+        },
         init: function () {
             const thisApp = this;
             console.log('*** App starting ***');
@@ -84,6 +84,7 @@
             console.log('templates:', templates);
             thisApp.initData();
             thisApp.initBooks();
+            thisApp.initFavoriteAction();
         },
     }
 
