@@ -47,10 +47,19 @@
         initFavoriteAction() {
             const thisBook = this;
 
+            thisBook.dom.image.addEventListener('click', function(event){
+                event.preventDefault();
+            })
             thisBook.dom.image.addEventListener('dblclick', function(event){
                 event.preventDefault();
-                thisBook.dom.image.classList.add('favorite');
-                app.favoriteBooks.push(thisBook.data.id);
+                if (!app.favoriteBooks.includes(thisBook.data.id)) {
+                    thisBook.dom.image.classList.add('favorite');
+                    app.favoriteBooks.push(thisBook.data.id);
+                } else {
+                    thisBook.dom.image.classList.remove('favorite');
+                    app.favoriteBooks.splice(
+                        app.favoriteBooks.indexOf(thisBook.data.id),1);
+                }
                 console.log(app.favoriteBooks);
             })
         }
