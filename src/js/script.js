@@ -35,7 +35,6 @@
             thisBook.dom = {};
             thisBook.dom.image = thisBook.element.querySelector(select.book.image);
             thisBook.dom.rating = thisBook.element.querySelector(select.book.rating);
-            console.log('thisBook.dom.rating', thisBook.dom.rating)
         }
 
         renderInMenu() {
