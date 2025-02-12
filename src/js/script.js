@@ -8,6 +8,9 @@
         containerOf: {
             books: '.books-list',
         },
+        book: {
+            image: '.book__image',
+        }
     }
 
     const templates = {
@@ -20,19 +23,39 @@
             thisBook.data = data;
 
             thisBook.renderInMenu();
+            thisBook.getElements();
+            thisBook.initFavoriteAction();
+        }
+
+        getElements() {
+            const thisBook = this;
+
+            thisBook.dom = {};
+            thisBook.dom.image = thisBook.element.querySelector(select.book.image);
         }
 
         renderInMenu() {
             const thisBook = this;
+
             const generatedHTML = templates.book(thisBook.data);
             thisBook.element = utils.createDOMFromHTML(generatedHTML);
             const booksContainer = document.querySelector(select.containerOf.books);
             console.log('booksContainer', booksContainer);
             booksContainer.appendChild(thisBook.element);
         }
+
+        initFavoriteAction() {
+            const thisBook = this;
+
+            thisBook.dom.image.addEventListener('dblclick', function(event){
+                event.preventDefault();
+                thisBook.dom.image.classList.add('favorite');
+            })
+        }
     }
 
     const app = {
+        favoriteBooks: [],
         initBooks: function () {
             const thisApp = this;
             for (let bookIndex in thisApp.data.books) {
